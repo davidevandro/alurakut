@@ -35,7 +35,7 @@ export default function Home() {
           <Box>
             <h1 className="title"> 
               Bem vindo(a)
-            </h1>ß
+            </h1>
 
             <OrkutNostalgicIconSet/>
           </Box>
