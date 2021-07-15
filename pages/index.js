@@ -16,7 +16,7 @@ function ProfileSideBar(propriedades){
       </p>
 
       <hr/>
-      <AlurakutProfileSidebarMenuDefault/>>
+      <AlurakutProfileSidebarMenuDefault/>
     </Box>
   )
 }
