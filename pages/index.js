@@ -33,11 +33,11 @@ export default function Home() {
 
         <div className="welcomeArea" style={{gridArea: 'welcomeArea'}}>  
           <Box>
-            <h1 className="title" style> 
+            <h1 className="title"> 
               Bem vindo(a)
-            </h1>
+            </h1>ß
 
-            <OrkutNostalgicIconSet></OrkutNostalgicIconSet>
+            <OrkutNostalgicIconSet/>
           </Box>
         </div>
         <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
@@ -45,6 +45,7 @@ export default function Home() {
             <h2 className="smallTitle">
               Pessoas da Comunidade ({pessoasFavoritas.length})
             </h2>
+
             <ul>
               {pessoasFavoritas.map((itemAtual) => {
                 return (
@@ -58,9 +59,6 @@ export default function Home() {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
-          <Box>
-            Comunidades
-          </Box>
         </div>
 
       </MainGrid>
