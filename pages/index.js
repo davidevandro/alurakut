@@ -48,6 +48,12 @@ function ProfileRelationsBox(propriedades){
 export default function Home(props) {
   const githubUser = props.githubUser;
   const [comunidades, setComunidades] = React.useState([]);
+  const sorteDoDia = [
+    'A melhor maneira de prever o futuro é criá-lo',
+    'A água ganha força na queda', 
+    'A vida trará coisas boas se tiveres paciência', 
+    'Demonstre amor e alegria em todas as oportunidades e verás que a paz nasce dentro de você'
+  ]
   const pessoasFavoritas = [
     'debbyohanne',
     'diego3g', 
@@ -109,6 +115,9 @@ export default function Home(props) {
             <h1 className="title"> 
               Bem vindo(a)
             </h1>
+            <div className="dayLuck"> 
+              <strong>Sorte do Dia: </strong> {sorteDoDia[Math.floor(Math.random()*sorteDoDia.length)]}
+            </div>
             <OrkutNostalgicIconSet confiavel = "3" legal = "3" sexy = "3"/>
           </Box>
 

@@ -8,6 +8,7 @@ const Box = styled.div`
 
   /* CSS Pré-Pronto */
   margin-bottom: 10px;
+
   .boxLink {
     font-size: 14px;
     color: #2E7BB4;
@@ -31,6 +32,12 @@ const Box = styled.div`
     color: #333333;
     margin-bottom: 20px;
   }
+  .dayLuck {
+    font-size:14px;
+    color: #999999;
+  }
+
+
   hr {
     margin-top: 12px;
     margin-bottom: 8px;
