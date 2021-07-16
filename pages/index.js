@@ -3,6 +3,8 @@ import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import {ProfileRelationsBoxWrapper} from '../src/components/ProfileRelations';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 
 function ProfileSideBar(propriedades){
   return (
@@ -43,8 +45,8 @@ function ProfileRelationsBox(propriedades){
   )
 }
 
-export default function Home() {
-  const githubUser = 'davidevandro';
+export default function Home(props) {
+  const githubUser = props.githubUser;
   const [comunidades, setComunidades] = React.useState([]);
   const pessoasFavoritas = [
     'debbyohanne',
@@ -198,4 +200,28 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+export async function getServerSideProps(context){
+  const cookies = nookies.get(context);
+  const token = cookies.USER_TOKEN;
+  const decodedToken = jwt.decode(token);
+  const githubUser = decodedToken?.githubUser;
+ 
+  const {message}= await fetch(`https://api.github.com/users/${githubUser}`).then(async (resposta) => resposta.json());
+
+  if (message === 'Not Found'){
+    return {
+      redirect: {
+        destination : '/login',
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+      props: {
+          githubUser
+      }
+  }
 }
