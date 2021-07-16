@@ -89,8 +89,6 @@ export default function Home() {
     .then( (respostaCompleta) => {
       const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
       setComunidades(comunidadesVindasDoDato);
-    }).catch((erro) => {
-      console.log(comunidades)
     })
   },[])
 
@@ -109,7 +107,6 @@ export default function Home() {
             <h1 className="title"> 
               Bem vindo(a)
             </h1>
-            console.log(TOKEN_READ)
             <OrkutNostalgicIconSet confiavel = "3" legal = "3" sexy = "3"/>
           </Box>
 
@@ -162,7 +159,6 @@ export default function Home() {
         <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
           <ProfileRelationsBox title="Seguidores" items={seguidores}/>
           <ProfileRelationsBoxWrapper>
-            console.log(comunidades)
           <h2 className="smallTitle">
               Comunidades ({comunidades.length})
             </h2>
