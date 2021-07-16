@@ -1,5 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import {AlurakutStyles} from '../src/lib/AlurakutCommons';
+import '../src/css/style.css';
 
 const GlobalStyle = createGlobalStyle`
   /* Reset CSS (Necolas Reset CSS)*/
@@ -13,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     background-color: #D9E6F6;
-    font-family: sans-serif;
+    font-family: "Rubik",sans-serif;
   }
 
   #_next{

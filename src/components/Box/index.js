@@ -36,6 +36,12 @@ const Box = styled.div`
     font-size:14px;
     color: #999999;
   }
+  .dayLuck strong {
+    font-size:14px;
+    color: #999999;
+    font-weight:700;
+  }
+  
 
 
   hr {
