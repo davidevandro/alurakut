@@ -45,11 +45,7 @@ function ProfileRelationsBox(propriedades){
 
 export default function Home() {
   const githubUser = 'davidevandro';
-  const [comunidades, setComunidades] = React.useState([{
-    id: '1234532456',
-    title: "Eu odeio acordar cedo",
-    image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
-  }]);
+  const [comunidades, setComunidades] = React.useState([]);
   const pessoasFavoritas = [
     'debbyohanne',
     'diego3g', 
@@ -63,12 +59,38 @@ export default function Home() {
   const [seguidores, setSeguidores] = React.useState([]);
   
   React.useEffect(function(){
+    //GET
     fetch(`https://api.github.com/users/juunegreiros/followers`)
     .then(function (respostaDoServidor){
       return respostaDoServidor.json();
     })
     .then(function(respostaCompleta){
       setSeguidores(respostaCompleta);
+    })
+
+    // API Graph QL
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_TOKEN_READ}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({"query":`query {
+        allCommunities {
+          title
+          id
+          imageUrl
+          creatorSlug
+        }
+      }`})
+    })
+    .then( (response) => response.json())
+    .then( (respostaCompleta) => {
+      const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+      setComunidades(comunidadesVindasDoDato);
+    }).catch((erro) => {
+      console.log(comunidades)
     })
   },[])
 
@@ -87,7 +109,7 @@ export default function Home() {
             <h1 className="title"> 
               Bem vindo(a)
             </h1>
-
+            console.log(TOKEN_READ)
             <OrkutNostalgicIconSet confiavel = "3" legal = "3" sexy = "3"/>
           </Box>
 
@@ -97,11 +119,24 @@ export default function Home() {
               e.preventDefault();
               const dadosDoForm = new FormData(e.target);
               const comunidade = {
-                id: new Date().toISOString(),
                 title: dadosDoForm.get('title'),
-                image: dadosDoForm.get('image')
+                imageUrl: dadosDoForm.get('image'),
+                creatorSlug: githubUser,
               };
-              setComunidades([...comunidades,comunidade]);
+              fetch('api/comunidades',{
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comunidade),
+              })
+              .then(async (response) => {
+                const dados = await response.json();
+                setComunidades([...comunidades,dados.registroCriado]);
+              })
+
+
+              //
             }}>
               <div>
                 <input 
@@ -127,6 +162,7 @@ export default function Home() {
         <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
           <ProfileRelationsBox title="Seguidores" items={seguidores}/>
           <ProfileRelationsBoxWrapper>
+            console.log(comunidades)
           <h2 className="smallTitle">
               Comunidades ({comunidades.length})
             </h2>
@@ -134,8 +170,8 @@ export default function Home() {
                 {comunidades.map((itemAtual) => {
                   return (
                     <li key={itemAtual.id}>
-                      <a href={`/users/${itemAtual.title}`}>
-                        <img src={itemAtual.image} />
+                      <a href={`/communities/${itemAtual.title}`}>
+                        <img src={itemAtual.imageUrl} />
                         <span>{itemAtual.title}</span>
                       </a>
                     </li>
