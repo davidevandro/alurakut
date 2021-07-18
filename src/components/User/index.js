@@ -26,7 +26,7 @@ const User = propriedades => (
           {propriedades.children}
         </div>
         <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
-          <ProfileRelationsBox title="Meus Amigos" items={propriedades.seguidores}/>
+          <ProfileRelationsBox title="Meus Amigos" items={propriedades.amigos}/>
           <ProfileRelationsBox title="Minhas Comunidades" items={propriedades.comunidades}/>
         </div>
 
