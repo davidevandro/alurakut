@@ -42,7 +42,6 @@ export default function LoginScreen() {
                       }
                     }).then(async (respostaDoAutenticador) => {
                         const {isAuthenticated, message} = await respostaDoAutenticador.json();
-
                         if (isAuthenticated){
                           nookies.set(null, 'USER_TOKEN', token, {
                             path: '/',
@@ -68,10 +67,7 @@ export default function LoginScreen() {
                     setGithubUser(evento.target.value);
                 }}
             />
-            {/* {githubUser.length === 0 
-                ? 'Preencha o campo'
-                : ''
-            } */}
+
             <div className="errorMessage" style={{color:'#FF0000'}}>{errorMessage}</div>
 
             <button type="submit">

@@ -9,16 +9,21 @@ export default async function validadorDeTokens(request, response){
             const githubUser = decodedToken?.githubUser;
             
 
-            const {message} = await fetch(`https://api.github.com/users/${githubUser}`)
+            const {message}= await fetch(`https://api.github.com/users/${githubUser}`)
                                     .then(async (resposta) => resposta.json());
-
-    
+                                    
             if (message === "Not Found") {
-              response.json({ 
-                  isAuthenticated: false, 
-                  message: 'usuário não encontrado',
-              });
-              return;
+                response.json({ 
+                    isAuthenticated: false, 
+                    message: 'usuário não encontrado',
+                });
+                return;
+            } else if (message?.includes('API rate limit')){
+                response.json({ 
+                    isAuthenticated: false, 
+                    message: 'sistema fora do ar',
+                });
+                return;
             }
 
             response.json({
@@ -29,7 +34,7 @@ export default async function validadorDeTokens(request, response){
         } else {
             response.json({
                 isAuthenticated: false,
-                message: '',
+                message: 'sem token',
         })
         }
     }
