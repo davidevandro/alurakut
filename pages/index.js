@@ -23,6 +23,7 @@ export default function Home(props) {
     'omariosouto',
     'juunegreiros',
     'maykbrito',
+    'jph00'
 
   ];
 

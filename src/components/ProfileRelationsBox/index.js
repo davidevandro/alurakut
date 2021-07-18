@@ -7,7 +7,7 @@ const ProfileRelationsBox = propriedades => (
           {propriedades.title} ({propriedades.items.length})
         </h2>
         { <ul>
-              {propriedades.items.map((itemAtual) => {
+              {propriedades.items.slice(0,6).map((itemAtual) => {
                 return (
                   <li key = {itemAtual.id?itemAtual.id:itemAtual}>
                     <Link href={`${itemAtual.title?'/communities/':'/users/'}${itemAtual.title?itemAtual.title:itemAtual}`}>
@@ -21,7 +21,11 @@ const ProfileRelationsBox = propriedades => (
                   </li>
                 )
               })}
-            </ul> }
+            </ul> 
+        }
+        <a className='seeAll' href = '/'>Ver todos</a>
+          
+        
       </ProfileRelationsBoxWrapper>
 )
 export default ProfileRelationsBox;
