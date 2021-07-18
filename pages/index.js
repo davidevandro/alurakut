@@ -1,5 +1,6 @@
 import React from 'react';
 import User from '../src/components/User';
+import Box from '../src/components/Box';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 
