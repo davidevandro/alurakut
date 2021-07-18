@@ -6,6 +6,7 @@ import nookies from 'nookies';
 export default function LoginScreen() {
   const router = useRouter();
   const [githubUser, setGithubUser] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   return (
     <main style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -21,8 +22,8 @@ export default function LoginScreen() {
         <section className="formArea">
           <form className="box" onSubmit={(infosDoEvento)=>{
                 infosDoEvento.preventDefault();
-                //alert('Clicou no botao');
-                fetch('https://alurakut.vercel.app/api/login',{
+                {githubUser
+                ?fetch('https://alurakut.vercel.app/api/login',{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -32,12 +33,29 @@ export default function LoginScreen() {
                 .then(async (respostaDoServer) => {
                     const dadosDaResposta = await respostaDoServer.json();
                     const token = dadosDaResposta.token;
-                    nookies.set(null, 'USER_TOKEN', token, {
-                        path: '/',
-                        maxAge: 86400 * 7
-                    } )
-                    router.push('/');
+
+                    fetch('/api/auth',{
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                      }
+                    }).then(async (respostaDoAutenticador) => {
+                        const {isAuthenticated, message} = await respostaDoAutenticador.json();
+
+                        if (isAuthenticated){
+                          nookies.set(null, 'USER_TOKEN', token, {
+                            path: '/',
+                            maxAge: 86400 * 7
+                          } )
+                          router.push('/');
+                        } else {
+                          setErrorMessage(message);
+                        }
+                      })
                 })
+                :setErrorMessage('Preencha o usuário!')}
+                
             }}>
                 
             <p>
@@ -50,10 +68,11 @@ export default function LoginScreen() {
                     setGithubUser(evento.target.value);
                 }}
             />
-            {githubUser.length === 0 
+            {/* {githubUser.length === 0 
                 ? 'Preencha o campo'
                 : ''
-            }
+            } */}
+            <div className="errorMessage" style={{color:'#FF0000'}}>{errorMessage}</div>
 
             <button type="submit">
               Login
@@ -81,3 +100,4 @@ export default function LoginScreen() {
     </main>
   )
 } 
+

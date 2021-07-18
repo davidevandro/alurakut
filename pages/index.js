@@ -217,13 +217,14 @@ export async function getServerSideProps(context){
   const decodedToken = jwt.decode(token);
   const githubUser = decodedToken?.githubUser;
  
-  const {message}= await fetch(`https://api.github.com/users/${githubUser}`).then(async (resposta) => resposta.json());
+  const {message}  = await fetch(`https://api.github.com/users/${githubUser}`)
+                          .then(async (resposta) => resposta.json());
 
   if (message === 'Not Found'){
     return {
       redirect: {
         destination : '/login',
-        permanent: false,
+        statusCode: 301,
       }
     }
   }
