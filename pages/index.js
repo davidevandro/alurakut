@@ -1,60 +1,21 @@
 import React from 'react';
-import MainGrid from '../src/components/MainGrid';
-import Box from '../src/components/Box';
-import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
-import {ProfileRelationsBoxWrapper} from '../src/components/ProfileRelations';
+import User from '../src/components/User';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 
-function ProfileSideBar(propriedades){
-  return (
-    <Box as="aside" >
-      <img src={`https://github.com/${propriedades.githubUser}.png`} style={{borderRadius: '8px'}}/>
-      <hr />
-      <p>
-        <a className="boxLink" href={`https://github.com/${propriedades.githubUser}`}>
-          @{propriedades.githubUser}
-        </a>
-      </p>
-
-      <hr/>
-      <AlurakutProfileSidebarMenuDefault/>
-    </Box>
-  )
-}
-
-function ProfileRelationsBox(propriedades){
-  return(
-    <ProfileRelationsBoxWrapper>
-      <h2 className="smallTitle">
-        {propriedades.title} ({propriedades.items.length})
-      </h2>
-      <ul>
-          {/* {seguidores.map((itemAtual) => {
-            return (
-              <li key={itemAtual}>
-                <a href={`https://github.com/${itemAtual}.png`}>
-                  <img src={itemAtual.image} />
-                  <span>{itemAtual.title}</span>
-                </a>
-              </li>
-            )
-          })} */}
-      </ul>
-    </ProfileRelationsBoxWrapper>
-  )
-}
-
 export default function Home(props) {
-  const githubUser = props.githubUser;
+  const githubUser = props.githubUser?props.githubUser:'davidevandro';
   const [comunidades, setComunidades] = React.useState([]);
   const sorteDoDia = [
     'A melhor maneira de prever o futuro é criá-lo',
     'A água ganha força na queda', 
     'A vida trará coisas boas se tiveres paciência', 
     'Demonstre amor e alegria em todas as oportunidades e verás que a paz nasce dentro de você'
-  ]
-  const pessoasFavoritas = [
+  ];
+  const [sorte, setSorte] = React.useState('');
+  //const [seguidores, setSeguidores] = React.useState([]);
+  
+  const seguidores = [
     'debbyohanne',
     'diego3g', 
     'rodrigorgtic', 
@@ -64,17 +25,9 @@ export default function Home(props) {
 
   ];
 
-  const [seguidores, setSeguidores] = React.useState([]);
-  
+
   React.useEffect(function(){
-    //GET
-    fetch(`https://api.github.com/users/juunegreiros/followers`)
-    .then(function (respostaDoServidor){
-      return respostaDoServidor.json();
-    })
-    .then(function(respostaCompleta){
-      setSeguidores(respostaCompleta);
-    })
+    setSorte(sorteDoDia[Math.floor(Math.random()*sorteDoDia.length)]);
 
     // API Graph QL
     fetch('https://graphql.datocms.com/', {
@@ -103,25 +56,13 @@ export default function Home(props) {
 
 
   return (
-    <>
-      <AlurakutMenu githubUser={githubUser}/>
-      <MainGrid>
-        <div className="profileArea" style={{gridArea: 'profileArea'}}>
-          <ProfileSideBar githubUser={githubUser}/>
-        </div>
-
-        <div className="welcomeArea" style={{gridArea: 'welcomeArea'}}>  
-          <Box>
-            <h1 className="title"> 
-              Bem vindo(a)
-            </h1>
-            <div className="dayLuck"> 
-              <strong>Sorte do Dia: </strong> {sorteDoDia[Math.floor(Math.random()*sorteDoDia.length)]}
-            </div>
-            <OrkutNostalgicIconSet confiavel = "3" legal = "3" sexy = "3"/>
-          </Box>
-
-          <Box>
+    <User 
+      githubUser={githubUser} 
+      seguidores = {seguidores} 
+      comunidades = {comunidades}
+      sorte = {sorte}
+    >
+      <Box>
             <h2 className="subTitle">O que você deseja fazer?</h2>
             <form onSubmit={function handleCriaComunidade(e) {
               e.preventDefault();
@@ -166,48 +107,7 @@ export default function Home(props) {
               </button>
             </form>
           </Box>
-        </div>
-        <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
-          <ProfileRelationsBox title="Seguidores" items={seguidores}/>
-          <ProfileRelationsBoxWrapper>
-          <h2 className="smallTitle">
-              Comunidades ({comunidades.length})
-            </h2>
-            <ul>
-                {comunidades.map((itemAtual) => {
-                  return (
-                    <li key={itemAtual.id}>
-                      <a href={`/communities/${itemAtual.title}`}>
-                        <img src={itemAtual.imageUrl} />
-                        <span>{itemAtual.title}</span>
-                      </a>
-                    </li>
-                  )
-                })}
-              </ul>
-            </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">
-              Pessoas da Comunidade ({pessoasFavoritas.length})
-            </h2>
-
-            <ul>
-              {pessoasFavoritas.map((itemAtual) => {
-                return (
-                  <li key = {itemAtual}>
-                    <a href={`/users/${itemAtual}`}>
-                      <img src={`https://github.com/${itemAtual}.png`} />
-                      <span>{itemAtual}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
-        </div>
-
-      </MainGrid>
-    </>
+    </User>
   )
 }
 
