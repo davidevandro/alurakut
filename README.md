@@ -26,7 +26,7 @@ Alurakut is a web application inspired by the classic social media platform Orku
 - [x] DatoCMS
 - [x] JWT
 
-##Layout
+## Layout
 
 You can visualize the project layout in [this link](https://www.figma.com/file/xHF0n0qxiE2rqjqAILiBUB/Alurakut?type=design&node-id=58-0&mode=design&t=JvLJhPjFFWHTriZw-0). It's necessary to have an account on [Figma](https://www.figma.com/) to access it.
 
