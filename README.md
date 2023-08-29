@@ -32,6 +32,9 @@ You can visualize the project layout in [this link](https://www.figma.com/file/x
 
 
 ## How to Use
+
+You can access live page [here](https://alurakut-zeta-opal.vercel.app/login/).
+
 To clone and run this application, you'll need to install [Git](https://git-scm.com/) and [Node.js](https://nodejs.org/en/download/) on your computer. From your command line:
 
 ```bash
